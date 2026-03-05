@@ -27,6 +27,16 @@
                 transform: scale(1) !important; 
             }
             
+            /* Hapus pengulangan header tabel di halaman baru */
+            table.tabel-data thead {
+                display: table-row-group !important;
+            }
+
+            /* Pastikan baris tabel tetap tertutup garis atas mengikuti margin */
+            table.tabel-data {
+                border-collapse: collapse !important;
+            }
+
             /* Mencegah baris tabel terpotong di tengah */
             table.tabel-data tr {
                 page-break-inside: avoid;
@@ -211,13 +221,14 @@
         </table>
 
         <div class="action-buttons">
-            <button class="btn-action" style="background:#cc0000;" onclick="hapusBaris()">- Hapus baris</button>
-            <button class="btn-action" onclick="tambahBaris()">+ Tambah baris</button>
+            <button class="btn-action" style="background:#cc0000;" onclick="hapusBaris()">- Hapus baris tabel jika hanya 2 konten</button>
+            <button class="btn-action" onclick="tambahBaris()">+ Tambah baris tabel jika konten lebih dari 3</button>
         </div>
     </div>
     
     <div class="fother-sticky-bar">
-        <div class="fother-content"> copyright: King Mamank 2026 </div>
+        <div class="fother-content"> copyright: King Mamank 2026 </div> <div></div> <a href='https://www.free-counters.org/'>Counter</a> <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=9b73d5e441fdd7f2ea3bb77c2638001df307c3bf'></script>
+<script type="text/javascript" src="https://freevisitorcounters.com/en/home/counter/1513188/t/2"></script>
     </div>
 
     <script>
@@ -244,21 +255,21 @@
                 </td>
                 <td>
                     <div class="foto-container">
-                        <span class="placeholder-text" id="txt_like_${i}">Like</span>
+                        <span class="placeholder-text" id="txt_like_${i}">Skrinsut Like</span>
                         <img id="img_like_${i}" class="img-preview">
                         <input type="file" accept="image/*" class="file-input" onchange="prosesGambar(this, 'img_like_${i}', 'txt_like_${i}')">
                     </div>
                 </td>
                 <td>
                     <div class="foto-container">
-                        <span class="placeholder-text" id="txt_comm_${i}">Comment</span>
+                        <span class="placeholder-text" id="txt_comm_${i}">Skrinsut Comment</span>
                         <img id="img_comm_${i}" class="img-preview">
                         <input type="file" accept="image/*" class="file-input" onchange="prosesGambar(this, 'img_comm_${i}', 'txt_comm_${i}')">
                     </div>
                 </td>
                 <td>
                     <div class="foto-container">
-                        <span class="placeholder-text" id="txt_share_${i}">Share</span>
+                        <span class="placeholder-text" id="txt_share_${i}">Skrinsut Share</span>
                         <img id="img_share_${i}" class="img-preview">
                         <input type="file" accept="image/*" class="file-input" onchange="prosesGambar(this, 'img_share_${i}', 'txt_share_${i}')">
                     </div>
