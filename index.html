@@ -11,15 +11,17 @@
     <style>
         @page { size: A4; margin: 0; }
         body { font-family: "Times New Roman", Times, serif; background: #525659; margin: 0; padding: 0; }
+        
         /* Menghilangkan panah dropdown saat print */
-@media print {
-    select {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        border: none;
-    }
-}
+        @media print {
+            select {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                border: none;
+            }
+        }
+
         /* Container Kertas Utama */
         .kertas-a4 { 
             width: 210mm; 
@@ -31,32 +33,38 @@
             box-shadow: 0 0 15px rgba(0,0,0,0.5); 
             position: relative;
         }
-/* Toolbar & UI */
-.toolbar { 
-    position: fixed; 
-    top: 20px; 
-    left: 20px; 
-    display: flex; 
-    flex-direction: column; 
-    gap: 8px; 
-    z-index: 9999; 
-}
 
-button, .btn-link { 
-    padding: 12px 15px; 
-    cursor: pointer; 
-    border: none; 
-    border-radius: 8px; 
-    color: white; 
-    font-weight: bold; 
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.3); 
-    text-decoration: none; 
-    display: inline-flex; 
-    align-items: center; 
-    **justify-content: center;** /* Menambah ini agar teks rata tengah horizontal */
-    **text-align: center;** /* Tambahan untuk kepastian */
-    font-size: 13px; 
-}
+        /* Toolbar & UI */
+        .toolbar { 
+            position: fixed; 
+            top: 20px; 
+            left: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 8px; 
+            z-index: 9999; 
+            /* Memastikan font Times New Roman di toolbar */
+            font-family: "Times New Roman", Times, serif;
+        }
+
+        button, .btn-link { 
+            padding: 12px 15px; 
+            cursor: pointer; 
+            border: none; 
+            border-radius: 8px; 
+            color: white; 
+            font-weight: bold; 
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3); 
+            text-decoration: none; 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center; 
+            font-size: 13px;
+            /* Mengatur font khusus untuk tombol di toolbar */
+            font-family: "Times New Roman", Times, serif;
+        }
+
         .judul-laporan { text-align: center; font-weight: bold; font-size: 14pt; margin-bottom: 25px; text-transform: uppercase; line-height: 1.3; }
         .identitas { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 11pt; table-layout: fixed; border: none; }
         .identitas td { padding: 4px 0; vertical-align: top; border: none; background: transparent; }
@@ -87,44 +95,32 @@ button, .btn-link {
         .file-input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 5; }
         .placeholder-text { font-size: 7pt; color: #888; text-align: center; }
 
-       /* --- TOMBOL TEKS PASTE & HAPUS --- */
-.btn-clear-judul, .btn-paste-judul { 
-    position: absolute; 
-    /* Samakan posisi kanan agar sejajar vertikal */
-    right: 12px; 
-    border: none; 
-    border-radius: 4px; 
-    padding: 4px 8px;
-    cursor: pointer; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    z-index: 10; 
-    font-size: 9px;
-    font-weight: bold;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-    color: white;
-    text-transform: uppercase;
-}
+        /* --- TOMBOL TEKS PASTE & HAPUS --- */
+        .btn-clear-judul, .btn-paste-judul { 
+            position: absolute; 
+            right: 12px; 
+            border: none; 
+            border-radius: 4px; 
+            padding: 4px 8px;
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 10; 
+            font-size: 9px;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            color: white;
+            text-transform: uppercase;
+        }
 
-/* Tombol Paste (Biru) - Posisi di ATAS */
-.btn-paste-judul { 
-    bottom: 45px; /* Angka ini lebih besar agar naik ke atas */
-    background: #007bff; 
-}
-.btn-paste-judul:hover { background: #0056b3; }
+        .btn-paste-judul { bottom: 45px; background: #007bff; }
+        .btn-paste-judul:hover { background: #0056b3; }
+        .btn-clear-judul { bottom: 12px; background: #dc3545; }
+        .btn-clear-judul:hover { background: #a71d2a; }
 
-/* Tombol Hapus (Merah) - Posisi di BAWAH */
-.btn-clear-judul { 
-    bottom: 12px; /* Posisi standar di bawah */
-    background: #dc3545; 
-}
-.btn-clear-judul:hover { background: #a71d2a; }
-
-        /* Toolbar & UI */
-        .toolbar { position: fixed; top: 20px; left: 20px; display: flex; flex-direction: column; gap: 8px; z-index: 9999; }
-        button, .btn-link { padding: 12px 15px; cursor: pointer; border: none; border-radius: 8px; color: white; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); text-decoration: none; display: inline-flex; align-items: center; font-size: 13px; }
+        /* Toolbar Colors */
         .btn-print { background: #008000; }
         .btn-reset { background: #FF0000; }
         .btn-lcs { background: #007bff; }
@@ -195,28 +191,28 @@ button, .btn-link {
 
         <table class="identitas">
             <tr>
-    <td class="label-id">PERIODE</td><td class="titik-id">:</td>
-    <td>
-        <select id="id_periode" onchange="simpanTeks('id_periode')" 
-            style="width: 100%; border: none; background: transparent; outline: none; 
-            font-family: 'Times New Roman', Times, serif; font-size: 11pt; color: black; 
-            appearance: none; -webkit-appearance: none; cursor: pointer;">
-            <option value="">PILIH BULAN</option>
-            <option value="JANUARI 2026">JANUARI</option>
-            <option value="FEBRUARI 2026">FEBRUARI</option>
-            <option value="MARET 2026">MARET</option>
-            <option value="APRIL 2026">APRIL</option>
-            <option value="MEI 2026">MEI</option>
-            <option value="JUNI 2026">JUNI</option>
-            <option value="JULI 2026">JULI</option>
-            <option value="AGUSTUS 2026">AGUSTUS</option>
-            <option value="SEPTEMBER 2026">SEPTEMBER</option>
-            <option value="OKTOBER 2026">OKTOBER</option>
-            <option value="NOVEMBER 2026">NOVEMBER</option>
-            <option value="DESEMBER 2026">DESEMBER</option>
-        </select>
-    </td>
-</tr>
+                <td class="label-id">PERIODE</td><td class="titik-id">:</td>
+                <td>
+                    <select id="id_periode" onchange="simpanTeks('id_periode')" 
+                        style="width: 100%; border: none; background: transparent; outline: none; 
+                        font-family: 'Times New Roman', Times, serif; font-size: 11pt; color: black; 
+                        appearance: none; -webkit-appearance: none; cursor: pointer;">
+                        <option value="">PILIH BULAN</option>
+                        <option value="JANUARI 2026">JANUARI</option>
+                        <option value="FEBRUARI 2026">FEBRUARI</option>
+                        <option value="MARET 2026">MARET</option>
+                        <option value="APRIL 2026">APRIL</option>
+                        <option value="MEI 2026">MEI</option>
+                        <option value="JUNI 2026">JUNI</option>
+                        <option value="JULI 2026">JULI</option>
+                        <option value="AGUSTUS 2026">AGUSTUS</option>
+                        <option value="SEPTEMBER 2026">SEPTEMBER</option>
+                        <option value="OKTOBER 2026">OKTOBER</option>
+                        <option value="NOVEMBER 2026">NOVEMBER</option>
+                        <option value="DESEMBER 2026">DESEMBER</option>
+                    </select>
+                </td>
+            </tr>
             <tr>
                 <td class="label-id">NAMA PENYULUH</td><td class="titik-id">:</td>
                 <td><input type="text" id="id_nama" placeholder="cth: ABDUL RAHMAN, SP" oninput="formatNama(this); simpanTeks('id_nama')"></td>
@@ -249,31 +245,25 @@ button, .btn-link {
         </table>
 
         <div class="action-buttons">
-            <button class="btn-action" onclick="tambahBaris()">+ Tambah baris tabel jika konten lebih dari 3</button>
             <button class="btn-action" style="background:#cc0000;" onclick="hapusBaris()">- Hapus baris tabel jika konten kurang dari 3</button>
+            <button class="btn-action" onclick="tambahBaris()">+ Tambah baris tabel jika konten lebih dari 3</button>
         </div>
     </div>
     
     <div class="fother-sticky-bar">
-    <div class="fother-content"> copyright: King Mamank 2026
-        
+        <div class="fother-content"> copyright: King Mamank 2026 </div>
     </div>
-</div>
 
-
-       <script>
+    <script>
         const tbody = document.getElementById('table-body');
         let jumlahBaris = parseInt(localStorage.getItem('jumlahBaris')) || 3;
 
         function renderBarisHTML(i) {
             const tr = document.createElement('tr');
             tr.id = `baris_${i}`;
-            
-            // Logika Tanggal Hari Ini (YYYY-MM-DD)
             const today = new Date().toISOString().split('T')[0];
             const savedDate = localStorage.getItem(`tgl_${i}`) || today;
             
-            // Simpan ke localStorage jika belum ada data sebelumnya
             if (!localStorage.getItem(`tgl_${i}`)) {
                 localStorage.setItem(`tgl_${i}`, today);
             }
