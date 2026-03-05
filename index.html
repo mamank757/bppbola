@@ -9,17 +9,45 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>EVIDEN LCS DIGITAL</title>
     <style>
-        @page { size: A4; margin: 0; }
+        @page { size: A4; margin: 10mm 0; }
         body { font-family: "Times New Roman", Times, serif; background: #525659; margin: 0; padding: 0; }
         
-        /* Menghilangkan panah dropdown saat print */
+        /* Pengaturan Break Halaman */
         @media print {
+            body { background: white; }
+            .toolbar, .action-buttons, .fother-sticky-bar, .modal-overlay, .btn-clear-judul, .btn-paste-judul { 
+                display: none !important; 
+            }
+            .kertas-a4 { 
+                margin: 0 !important; 
+                padding: 10mm 20mm !important; 
+                box-shadow: none !important; 
+                width: 210mm !important; 
+                zoom: 1 !important; 
+                transform: scale(1) !important; 
+            }
+            
+            /* Mencegah baris tabel terpotong di tengah */
+            table.tabel-data tr {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            
+            /* Class untuk pindah halaman manual */
+            .page-break {
+                display: block;
+                page-break-before: always;
+                break-before: page;
+            }
+
             select {
                 -webkit-appearance: none;
                 -moz-appearance: none;
                 appearance: none;
                 border: none;
             }
+            .input-tgl::-webkit-calendar-picker-indicator { display: none !important; }
+            .foto-container { border: 1px solid #000 !important; }
         }
 
         /* Container Kertas Utama */
@@ -36,36 +64,20 @@
 
         /* Toolbar & UI */
         .toolbar { 
-            position: fixed; 
-            top: 20px; 
-            left: 20px; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 8px; 
-            z-index: 9999; 
-            font-family: "Times New Roman", Times, serif;
+            position: fixed; top: 20px; left: 20px; 
+            display: flex; flex-direction: column; gap: 8px; z-index: 9999; 
         }
 
         button, .btn-link { 
-            padding: 12px 15px; 
-            cursor: pointer; 
-            border: none; 
-            border-radius: 8px; 
-            color: white; 
-            font-weight: bold; 
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.3); 
-            text-decoration: none; 
-            display: inline-flex; 
-            align-items: center; 
-            justify-content: center; 
-            text-align: center; 
-            font-size: 13px;
-            font-family: "Times New Roman", Times, serif;
+            padding: 12px 15px; cursor: pointer; border: none; border-radius: 8px; 
+            color: white; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); 
+            text-decoration: none; display: inline-flex; align-items: center; 
+            justify-content: center; font-size: 13px; font-family: "Times New Roman", Times, serif;
         }
 
         .judul-laporan { text-align: center; font-weight: bold; font-size: 14pt; margin-bottom: 25px; text-transform: uppercase; line-height: 1.3; }
-        .identitas { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 11pt; table-layout: fixed; border: none; }
-        .identitas td { padding: 4px 0; vertical-align: top; border: none; background: transparent; }
+        .identitas { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 11pt; table-layout: fixed; }
+        .identitas td { padding: 4px 0; vertical-align: top; }
         .label-id { width: 140px; font-weight: bold; }
         .titik-id { width: 20px; text-align: center; font-weight: bold; }
         .identitas input { width: 100%; border: none; background: transparent; outline: none; font-family: "Times New Roman", Times, serif; font-size: 11pt; color: black; }
@@ -75,40 +87,16 @@
         table.tabel-data th { background-color: #86bfa7; color: black; padding: 10px 5px; border: 1px solid black; font-weight: bold; text-align: center; vertical-align: middle; text-transform: uppercase; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         table.tabel-data td { border: 1px solid black; padding: 0; vertical-align: middle; }
         
-        /* Ukuran Kolom */
         .col-no { width: 40px; }
         .col-tgl { width: 90px; }
         .col-judul { width: 140px; } 
-        
         .td-center { text-align: center; font-weight: bold; }
         .td-height { height: 190px; }
         
-        /* CSS HILANGKAN TANDA SCROLL/PICKER TANGGAL */
         .input-tgl { 
-            width: 100%; 
-            border: none; 
-            text-align: center; 
-            font-size: 10pt; 
-            background: transparent; 
-            outline: none; 
-            font-family: "Times New Roman", Times, serif; 
-            color: #000; 
-            cursor: pointer;
-            -webkit-appearance: none;
-            position: relative;
-        }
-
-        .input-tgl::-webkit-calendar-picker-indicator {
-            background: transparent;
-            bottom: 0;
-            color: transparent;
-            cursor: pointer;
-            height: auto;
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: auto;
+            width: 100%; border: none; text-align: center; font-size: 10pt; 
+            background: transparent; outline: none; font-family: "Times New Roman", Times, serif; 
+            color: #000; cursor: pointer; position: relative;
         }
 
         .judul-wrapper { position: relative; height: 190px; padding: 10px; box-sizing: border-box; }
@@ -121,28 +109,12 @@
         .placeholder-text { font-size: 7pt; color: #888; text-align: center; }
 
         .btn-clear-judul, .btn-paste-judul { 
-            position: absolute; 
-            right: 12px; 
-            border: none; 
-            border-radius: 4px; 
-            padding: 4px 8px;
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            z-index: 10; 
-            font-size: 9px;
-            font-weight: bold;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-            color: white;
-            text-transform: uppercase;
+            position: absolute; right: 12px; border: none; border-radius: 4px; padding: 4px 8px;
+            cursor: pointer; z-index: 10; font-size: 9px; font-weight: bold; color: white; text-transform: uppercase;
         }
 
         .btn-paste-judul { bottom: 45px; background: #007bff; }
-        .btn-paste-judul:hover { background: #0056b3; }
         .btn-clear-judul { bottom: 12px; background: #dc3545; }
-        .btn-clear-judul:hover { background: #a71d2a; }
 
         .btn-print { background: #008000; }
         .btn-reset { background: #FF0000; }
@@ -151,35 +123,14 @@
         .btn-action { background: #00008B; }
 
         .fother-sticky-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: white; height: 45px; display: flex; align-items: center; justify-content: center; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 999; }
-        .fother-content { display: flex; gap: 25px; }
 
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center; }
         .modal-box { background: white; padding: 20px; border-radius: 10px; text-align: center; width: 90%; max-width: 300px; }
         .modal-buttons { display: flex; gap: 10px; margin-top: 15px; }
-        .btn-batal { background: #6c757d; flex: 1; }
-        .btn-bersihkan { background: #e74c3c; flex: 1; }
 
         @media screen and (max-width: 768px) {
-            body { background: #525659; overflow-x: auto; }
-            .kertas-a4 { 
-                margin: 60px 10px 80px 10px; 
-                transform-origin: top left;
-                zoom: 0.45; 
-                -moz-transform: scale(0.45);
-            }
-            .toolbar { 
-                top: 0; left: 0; width: 100%; flex-direction: row; 
-                background: #333; padding: 10px; box-sizing: border-box;
-            }
-            .toolbar button, .toolbar .btn-link { flex: 1; font-size: 10px; padding: 8px 2px; }
-        }
-
-        @media print {
-            body { background: white; }
-            .toolbar, .action-buttons, .fother-sticky-bar, .modal-overlay, .btn-clear-judul, .btn-paste-judul { display: none !important; }
-            .kertas-a4 { margin: 0 !important; padding: 10mm 20mm !important; box-shadow: none !important; width: 210mm !important; zoom: 1 !important; transform: scale(1) !important; }
-            .foto-container { border: 1px solid #000; }
-            .input-tgl::-webkit-calendar-picker-indicator { display: none !important; -webkit-appearance: none; }
+            .kertas-a4 { margin: 60px 10px 80px 10px; transform-origin: top left; zoom: 0.45; }
+            .toolbar { top: 0; left: 0; width: 100%; flex-direction: row; background: #333; padding: 10px; box-sizing: border-box; }
         }
     </style>
 </head>
@@ -195,8 +146,8 @@
         <div class="modal-box">
             <p>Bersihkan semua data?</p>
             <div class="modal-buttons">
-                <button class="btn-batal" onclick="tutupPopup()">Batal</button>
-                <button class="btn-bersihkan" onclick="konfirmasiReset()">Hapus</button>
+                <button class="btn-batal" style="background:#6c757d; flex:1;" onclick="tutupPopup()">Batal</button>
+                <button class="btn-bersihkan" style="background:#e74c3c; flex:1;" onclick="konfirmasiReset()">Hapus</button>
             </div>
         </div>
     </div>
@@ -211,10 +162,7 @@
             <tr>
                 <td class="label-id">PERIODE</td><td class="titik-id">:</td>
                 <td>
-                    <select id="id_periode" onchange="simpanTeks('id_periode')" 
-                        style="width: 100%; border: none; background: transparent; outline: none; 
-                        font-family: 'Times New Roman', Times, serif; font-size: 11pt; color: black; 
-                        appearance: none; -webkit-appearance: none; cursor: pointer;">
+                    <select id="id_periode" onchange="simpanTeks('id_periode')" style="width: 100%; border: none; background: transparent; outline: none; font-family: 'Times New Roman', Times, serif; font-size: 11pt; color: black; appearance: none; cursor: pointer;">
                         <option value="">PILIH BULAN</option>
                         <option value="JANUARI 2026">JANUARI</option>
                         <option value="FEBRUARI 2026">FEBRUARI</option>
@@ -263,8 +211,8 @@
         </table>
 
         <div class="action-buttons">
-            <button class="btn-action" style="background:#cc0000;" onclick="hapusBaris()">- Hapus baris tabel jika jumlah konten kurang dari 3</button>
-            <button class="btn-action" onclick="tambahBaris()">+ Tambah baris tabel jika jumlah konten lebih dari 3</button>
+            <button class="btn-action" style="background:#cc0000;" onclick="hapusBaris()">- Hapus baris</button>
+            <button class="btn-action" onclick="tambahBaris()">+ Tambah baris</button>
         </div>
     </div>
     
@@ -282,39 +230,35 @@
             const today = new Date().toISOString().split('T')[0];
             const savedDate = localStorage.getItem(`tgl_${i}`) || today;
             
-            if (!localStorage.getItem(`tgl_${i}`)) {
-                localStorage.setItem(`tgl_${i}`, today);
-            }
-
             tr.innerHTML = `
                 <td class="td-center">${i}</td>
-                <td class="td-height" style="position: relative;">
+                <td class="td-height">
                     <input type="date" id="tgl_${i}" class="input-tgl" value="${savedDate}" oninput="simpanTeks('tgl_${i}')">
                 </td>
                 <td class="td-height">
                     <div class="judul-wrapper">
-                        <textarea id="judul_${i}" class="input-judul" placeholder="Ketik judul konten atau tekan paste setelah judul konten disalin..." oninput="simpanTeks('judul_${i}')"></textarea>
+                        <textarea id="judul_${i}" class="input-judul" placeholder="Paste judul..." oninput="simpanTeks('judul_${i}')"></textarea>
                         <button class="btn-paste-judul" onclick="pasteKeJudul('judul_${i}')">PASTE</button>
                         <button class="btn-clear-judul" onclick="hapusJudul(${i})">HAPUS</button>
                     </div>
                 </td>
                 <td>
                     <div class="foto-container">
-                        <span class="placeholder-text" id="txt_like_${i}">Skrinsut Like</span>
+                        <span class="placeholder-text" id="txt_like_${i}">Like</span>
                         <img id="img_like_${i}" class="img-preview">
                         <input type="file" accept="image/*" class="file-input" onchange="prosesGambar(this, 'img_like_${i}', 'txt_like_${i}')">
                     </div>
                 </td>
                 <td>
                     <div class="foto-container">
-                        <span class="placeholder-text" id="txt_comm_${i}">Skrinsut Comment</span>
+                        <span class="placeholder-text" id="txt_comm_${i}">Comment</span>
                         <img id="img_comm_${i}" class="img-preview">
                         <input type="file" accept="image/*" class="file-input" onchange="prosesGambar(this, 'img_comm_${i}', 'txt_comm_${i}')">
                     </div>
                 </td>
                 <td>
                     <div class="foto-container">
-                        <span class="placeholder-text" id="txt_share_${i}">Skrinsut Share</span>
+                        <span class="placeholder-text" id="txt_share_${i}">Share</span>
                         <img id="img_share_${i}" class="img-preview">
                         <input type="file" accept="image/*" class="file-input" onchange="prosesGambar(this, 'img_share_${i}', 'txt_share_${i}')">
                     </div>
@@ -334,31 +278,21 @@
             jumlahBaris++;
             localStorage.setItem('jumlahBaris', jumlahBaris);
             tbody.appendChild(renderBarisHTML(jumlahBaris));
-            
-            // Pemberitahuan setelah tambah baris
-            alert("Berhasil! Baris ke-" + jumlahBaris + " telah ditambahkan.");
         }
 
         function hapusBaris() {
             if (jumlahBaris > 1) {
-                // Peringatan konfirmasi sebelum menghapus
-                const yakin = confirm("Peringatan: Baris terakhir (" + jumlahBaris + ") akan dihapus secara permanen. Lanjutkan?");
-                
-                if (yakin) {
-                    // Hapus data di localStorage khusus baris yang dibuang agar tidak nyangkut nantinya
+                if (confirm("Hapus baris terakhir?")) {
                     localStorage.removeItem(`tgl_${jumlahBaris}`);
                     localStorage.removeItem(`judul_${jumlahBaris}`);
                     localStorage.removeItem(`img_like_${jumlahBaris}`);
                     localStorage.removeItem(`img_comm_${jumlahBaris}`);
                     localStorage.removeItem(`img_share_${jumlahBaris}`);
-
                     jumlahBaris--;
                     localStorage.setItem('jumlahBaris', jumlahBaris);
                     inisialisasiTabel();
                     muatDataLokal();
                 }
-            } else {
-                alert("Tidak dapat menghapus. Minimal harus ada 1 baris tabel.");
             }
         }
 
@@ -367,9 +301,7 @@
                 const text = await navigator.clipboard.readText();
                 document.getElementById(id).value = text;
                 simpanTeks(id);
-            } catch (err) {
-                console.error("Gagal tempel:", err);
-            }
+            } catch (err) { alert("Gagal mengakses clipboard."); }
         }
 
         function hapusJudul(i) {
@@ -414,8 +346,7 @@
                         if(img) {
                             img.src = savedImg;
                             img.style.display = 'block';
-                            const txt = document.getElementById(`txt_${type}_${i}`);
-                            if(txt) txt.style.display = 'none';
+                            document.getElementById(`txt_${type}_${i}`).style.display = 'none';
                         }
                     }
                 });
