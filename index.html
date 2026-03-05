@@ -43,7 +43,6 @@
             flex-direction: column; 
             gap: 8px; 
             z-index: 9999; 
-            /* Memastikan font Times New Roman di toolbar */
             font-family: "Times New Roman", Times, serif;
         }
 
@@ -61,7 +60,6 @@
             justify-content: center; 
             text-align: center; 
             font-size: 13px;
-            /* Mengatur font khusus untuk tombol di toolbar */
             font-family: "Times New Roman", Times, serif;
         }
 
@@ -85,7 +83,34 @@
         .td-center { text-align: center; font-weight: bold; }
         .td-height { height: 190px; }
         
-        .input-tgl { width: 100%; border: none; text-align: center; font-size: 10pt; background: transparent; outline: none; font-family: "Times New Roman", Times, serif; color: #000; cursor: pointer; }
+        /* CSS HILANGKAN TANDA SCROLL/PICKER TANGGAL */
+        .input-tgl { 
+            width: 100%; 
+            border: none; 
+            text-align: center; 
+            font-size: 10pt; 
+            background: transparent; 
+            outline: none; 
+            font-family: "Times New Roman", Times, serif; 
+            color: #000; 
+            cursor: pointer;
+            -webkit-appearance: none;
+            position: relative;
+        }
+
+        .input-tgl::-webkit-calendar-picker-indicator {
+            background: transparent;
+            bottom: 0;
+            color: transparent;
+            cursor: pointer;
+            height: auto;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: auto;
+        }
+
         .judul-wrapper { position: relative; height: 190px; padding: 10px; box-sizing: border-box; }
         textarea.input-judul { width: 100%; height: 130px; border: none; resize: none; font-family: "Times New Roman", Times, serif; font-size: 10pt; background: transparent; outline: none; overflow: hidden; line-height: 1.3; }
 
@@ -95,7 +120,6 @@
         .file-input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 5; }
         .placeholder-text { font-size: 7pt; color: #888; text-align: center; }
 
-        /* --- TOMBOL TEKS PASTE & HAPUS --- */
         .btn-clear-judul, .btn-paste-judul { 
             position: absolute; 
             right: 12px; 
@@ -120,26 +144,21 @@
         .btn-clear-judul { bottom: 12px; background: #dc3545; }
         .btn-clear-judul:hover { background: #a71d2a; }
 
-        /* Toolbar Colors */
         .btn-print { background: #008000; }
         .btn-reset { background: #FF0000; }
         .btn-lcs { background: #007bff; }
         .action-buttons { text-align: center; margin-top: 15px; display: flex; justify-content: center; gap: 10px; }
         .btn-action { background: #00008B; }
 
-        /* Sticky Bar Footer */
         .fother-sticky-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: white; height: 45px; display: flex; align-items: center; justify-content: center; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 999; }
         .fother-content { display: flex; gap: 25px; }
-        .fother-icon { font-size: 20px; color: #555; text-decoration: none; }
 
-        /* MODAL */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center; }
         .modal-box { background: white; padding: 20px; border-radius: 10px; text-align: center; width: 90%; max-width: 300px; }
         .modal-buttons { display: flex; gap: 10px; margin-top: 15px; }
         .btn-batal { background: #6c757d; flex: 1; }
         .btn-bersihkan { background: #e74c3c; flex: 1; }
 
-        /* --- HP VIEW MODE --- */
         @media screen and (max-width: 768px) {
             body { background: #525659; overflow-x: auto; }
             .kertas-a4 { 
@@ -155,13 +174,12 @@
             .toolbar button, .toolbar .btn-link { flex: 1; font-size: 10px; padding: 8px 2px; }
         }
 
-        /* PRINT MODE */
         @media print {
             body { background: white; }
             .toolbar, .action-buttons, .fother-sticky-bar, .modal-overlay, .btn-clear-judul, .btn-paste-judul { display: none !important; }
             .kertas-a4 { margin: 0 !important; padding: 10mm 20mm !important; box-shadow: none !important; width: 210mm !important; zoom: 1 !important; transform: scale(1) !important; }
             .foto-container { border: 1px solid #000; }
-            .input-tgl::-webkit-calendar-picker-indicator { display: none; -webkit-appearance: none; }
+            .input-tgl::-webkit-calendar-picker-indicator { display: none !important; -webkit-appearance: none; }
         }
     </style>
 </head>
@@ -245,8 +263,8 @@
         </table>
 
         <div class="action-buttons">
-            <button class="btn-action" style="background:#cc0000;" onclick="hapusBaris()">- Hapus baris tabel jika konten kurang dari 3</button>
-            <button class="btn-action" onclick="tambahBaris()">+ Tambah baris tabel jika konten lebih dari 3</button>
+            <button class="btn-action" style="background:#cc0000;" onclick="hapusBaris()">- Hapus baris tabel jika jumlah konten kurang dari 3</button>
+            <button class="btn-action" onclick="tambahBaris()">+ Tambah baris tabel jika jumlah konten lebih dari 3</button>
         </div>
     </div>
     
@@ -270,7 +288,7 @@
 
             tr.innerHTML = `
                 <td class="td-center">${i}</td>
-                <td class="td-height">
+                <td class="td-height" style="position: relative;">
                     <input type="date" id="tgl_${i}" class="input-tgl" value="${savedDate}" oninput="simpanTeks('tgl_${i}')">
                 </td>
                 <td class="td-height">
@@ -316,14 +334,31 @@
             jumlahBaris++;
             localStorage.setItem('jumlahBaris', jumlahBaris);
             tbody.appendChild(renderBarisHTML(jumlahBaris));
+            
+            // Pemberitahuan setelah tambah baris
+            alert("Berhasil! Baris ke-" + jumlahBaris + " telah ditambahkan.");
         }
 
         function hapusBaris() {
             if (jumlahBaris > 1) {
-                jumlahBaris--;
-                localStorage.setItem('jumlahBaris', jumlahBaris);
-                inisialisasiTabel();
-                muatDataLokal();
+                // Peringatan konfirmasi sebelum menghapus
+                const yakin = confirm("Peringatan: Baris terakhir (" + jumlahBaris + ") akan dihapus secara permanen. Lanjutkan?");
+                
+                if (yakin) {
+                    // Hapus data di localStorage khusus baris yang dibuang agar tidak nyangkut nantinya
+                    localStorage.removeItem(`tgl_${jumlahBaris}`);
+                    localStorage.removeItem(`judul_${jumlahBaris}`);
+                    localStorage.removeItem(`img_like_${jumlahBaris}`);
+                    localStorage.removeItem(`img_comm_${jumlahBaris}`);
+                    localStorage.removeItem(`img_share_${jumlahBaris}`);
+
+                    jumlahBaris--;
+                    localStorage.setItem('jumlahBaris', jumlahBaris);
+                    inisialisasiTabel();
+                    muatDataLokal();
+                }
+            } else {
+                alert("Tidak dapat menghapus. Minimal harus ada 1 baris tabel.");
             }
         }
 
@@ -342,7 +377,10 @@
             simpanTeks(`judul_${i}`);
         }
 
-        function simpanTeks(id) { localStorage.setItem(id, document.getElementById(id).value); }
+        function simpanTeks(id) { 
+            const el = document.getElementById(id);
+            if(el) localStorage.setItem(id, el.value); 
+        }
 
         function prosesGambar(input, imgId, textId) {
             if (input.files && input.files[0]) {
@@ -360,7 +398,8 @@
 
         function muatDataLokal() {
             ['id_periode', 'id_nama', 'id_nip', 'id_wilayah'].forEach(id => {
-                if(localStorage.getItem(id)) document.getElementById(id).value = localStorage.getItem(id);
+                const saved = localStorage.getItem(id);
+                if(saved) document.getElementById(id).value = saved;
             });
 
             for (let i = 1; i <= jumlahBaris; i++) {
@@ -369,10 +408,11 @@
                 
                 ['like', 'comm', 'share'].forEach(type => {
                     const key = `img_${type}_${i}`;
-                    if (localStorage.getItem(key)) {
+                    const savedImg = localStorage.getItem(key);
+                    if (savedImg) {
                         const img = document.getElementById(key);
                         if(img) {
-                            img.src = localStorage.getItem(key);
+                            img.src = savedImg;
                             img.style.display = 'block';
                             const txt = document.getElementById(`txt_${type}_${i}`);
                             if(txt) txt.style.display = 'none';
