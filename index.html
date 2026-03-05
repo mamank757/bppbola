@@ -56,7 +56,18 @@
                 appearance: none;
                 border: none;
             }
-            .input-tgl::-webkit-calendar-picker-indicator { display: none !important; }
+            
+            /* Menghilangkan ikon kalender di Chrome/Edge/Safari saat cetak */
+            .input-tgl::-webkit-calendar-picker-indicator { 
+                display: none !important; 
+                -webkit-appearance: none !important;
+            }
+            /* Menghilangkan ikon di Firefox */
+            .input-tgl {
+                appearance: none;
+                -moz-appearance: textfield;
+            }
+
             .foto-container { border: 1px solid #000 !important; }
         }
 
@@ -221,8 +232,8 @@
         </table>
 
         <div class="action-buttons">
-            <button class="btn-action" style="background:#cc0000;" onclick="hapusBaris()">- Hapus baris tabel jika hanya 2 konten</button>
-            <button class="btn-action" onclick="tambahBaris()">+ Tambah baris tabel jika konten lebih dari 3</button>
+            <button class="btn-action" style="background:#cc0000;" onclick="hapusBaris()">- Hapus baris tabel jikan</button>
+            <button class="btn-action" onclick="tambahBaris()">+ Tambah baris tabel</button>
         </div>
     </div>
     
@@ -248,7 +259,7 @@
                 </td>
                 <td class="td-height">
                     <div class="judul-wrapper">
-                        <textarea id="judul_${i}" class="input-judul" placeholder="Paste judul..." oninput="simpanTeks('judul_${i}')"></textarea>
+                        <textarea id="judul_${i}" class="input-judul" placeholder="Tulis atau Paste judul konten yang disalin ..." oninput="simpanTeks('judul_${i}')"></textarea>
                         <button class="btn-paste-judul" onclick="pasteKeJudul('judul_${i}')">PASTE</button>
                         <button class="btn-clear-judul" onclick="hapusJudul(${i})">HAPUS</button>
                     </div>
