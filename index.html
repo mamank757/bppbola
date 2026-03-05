@@ -275,28 +275,28 @@
                 </td>
                 <td class="td-height">
                     <div class="judul-wrapper">
-                        <textarea id="judul_${i}" class="input-judul" placeholder="Ketik judul konten..." oninput="simpanTeks('judul_${i}')"></textarea>
+                        <textarea id="judul_${i}" class="input-judul" placeholder="Ketik judul konten atau tekan paste setelah judul konten disalin..." oninput="simpanTeks('judul_${i}')"></textarea>
                         <button class="btn-paste-judul" onclick="pasteKeJudul('judul_${i}')">PASTE</button>
                         <button class="btn-clear-judul" onclick="hapusJudul(${i})">HAPUS</button>
                     </div>
                 </td>
                 <td>
                     <div class="foto-container">
-                        <span class="placeholder-text" id="txt_like_${i}">Like</span>
+                        <span class="placeholder-text" id="txt_like_${i}">Skrinsut Like</span>
                         <img id="img_like_${i}" class="img-preview">
                         <input type="file" accept="image/*" class="file-input" onchange="prosesGambar(this, 'img_like_${i}', 'txt_like_${i}')">
                     </div>
                 </td>
                 <td>
                     <div class="foto-container">
-                        <span class="placeholder-text" id="txt_comm_${i}">Comment</span>
+                        <span class="placeholder-text" id="txt_comm_${i}">Skrinsut Comment</span>
                         <img id="img_comm_${i}" class="img-preview">
                         <input type="file" accept="image/*" class="file-input" onchange="prosesGambar(this, 'img_comm_${i}', 'txt_comm_${i}')">
                     </div>
                 </td>
                 <td>
                     <div class="foto-container">
-                        <span class="placeholder-text" id="txt_share_${i}">Share</span>
+                        <span class="placeholder-text" id="txt_share_${i}">Skrinsut Share</span>
                         <img id="img_share_${i}" class="img-preview">
                         <input type="file" accept="image/*" class="file-input" onchange="prosesGambar(this, 'img_share_${i}', 'txt_share_${i}')">
                     </div>
