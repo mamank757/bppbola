@@ -31,7 +31,32 @@
             box-shadow: 0 0 15px rgba(0,0,0,0.5); 
             position: relative;
         }
+/* Toolbar & UI */
+.toolbar { 
+    position: fixed; 
+    top: 20px; 
+    left: 20px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px; 
+    z-index: 9999; 
+}
 
+button, .btn-link { 
+    padding: 12px 15px; 
+    cursor: pointer; 
+    border: none; 
+    border-radius: 8px; 
+    color: white; 
+    font-weight: bold; 
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3); 
+    text-decoration: none; 
+    display: inline-flex; 
+    align-items: center; 
+    **justify-content: center;** /* Menambah ini agar teks rata tengah horizontal */
+    **text-align: center;** /* Tambahan untuk kepastian */
+    font-size: 13px; 
+}
         .judul-laporan { text-align: center; font-weight: bold; font-size: 14pt; margin-bottom: 25px; text-transform: uppercase; line-height: 1.3; }
         .identitas { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 11pt; table-layout: fixed; border: none; }
         .identitas td { padding: 4px 0; vertical-align: top; border: none; background: transparent; }
@@ -147,8 +172,8 @@
 
     <div class="toolbar">
         <button class="btn-print" onclick="cetakPDFCustom()">SIMPAN PDF</button>
-        <button class="btn-reset" onclick="tampilkanPopup()">RESET</button>
-        <a class="btn-link btn-lcs" href="https://dev.epusluh.id/lcs/list">EPUSLUH</a>
+        <button class="btn-reset" onclick="tampilkanPopup()">ATUR ULANG</button>
+        <a class="btn-link btn-lcs" href="https://dev.epusluh.id/lcs/list">KONTEN EPUSLUH</a>
     </div>
 
     <div id="popup-reset" class="modal-overlay">
@@ -229,7 +254,7 @@
     </div>
     
     <div class="fother-sticky-bar">
-    <div class="fother-content">
+    <div class="fother-content"> copyright: King Mamank 2026
         
     </div>
 </div>
@@ -242,10 +267,20 @@
         function renderBarisHTML(i) {
             const tr = document.createElement('tr');
             tr.id = `baris_${i}`;
+            
+            // Logika Tanggal Hari Ini (YYYY-MM-DD)
+            const today = new Date().toISOString().split('T')[0];
+            const savedDate = localStorage.getItem(`tgl_${i}`) || today;
+            
+            // Simpan ke localStorage jika belum ada data sebelumnya
+            if (!localStorage.getItem(`tgl_${i}`)) {
+                localStorage.setItem(`tgl_${i}`, today);
+            }
+
             tr.innerHTML = `
                 <td class="td-center">${i}</td>
                 <td class="td-height">
-                    <input type="date" id="tgl_${i}" class="input-tgl" oninput="simpanTeks('tgl_${i}')">
+                    <input type="date" id="tgl_${i}" class="input-tgl" value="${savedDate}" oninput="simpanTeks('tgl_${i}')">
                 </td>
                 <td class="td-height">
                     <div class="judul-wrapper">
