@@ -232,7 +232,7 @@
         </table>
 
         <div class="action-buttons">
-            <button class="btn-action" style="background:#cc0000;" onclick="hapusBaris()">- Hapus baris tabel</button>
+            <button class="btn-action" style="background:#cc0000;" onclick="hapusBaris()">- Hapus baris tabel jikan</button>
             <button class="btn-action" onclick="tambahBaris()">+ Tambah baris tabel</button>
         </div>
     </div>
@@ -245,6 +245,12 @@
     <script>
         const tbody = document.getElementById('table-body');
         let jumlahBaris = parseInt(localStorage.getItem('jumlahBaris')) || 3;
+
+        function updateJudulHalaman() {
+            const nama = document.getElementById('id_nama').value || '[nama penyuluh]';
+            const periode = document.getElementById('id_periode').value || '[tanggal]';
+            document.title = `LCS ${periode}, ${nama}`;
+        }
 
         function renderBarisHTML(i) {
             const tr = document.createElement('tr');
@@ -333,7 +339,10 @@
 
         function simpanTeks(id) { 
             const el = document.getElementById(id);
-            if(el) localStorage.setItem(id, el.value); 
+            if(el) {
+                localStorage.setItem(id, el.value); 
+                updateJudulHalaman();
+            }
         }
 
         function prosesGambar(input, imgId, textId) {
@@ -373,6 +382,7 @@
                     }
                 });
             }
+            updateJudulHalaman();
         }
 
         function formatNIP(input) {
@@ -397,4 +407,3 @@
     </script>
 </body>
 </html>
-
