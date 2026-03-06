@@ -246,16 +246,22 @@
         const tbody = document.getElementById('table-body');
         let jumlahBaris = parseInt(localStorage.getItem('jumlahBaris')) || 3;
 
-         // Fungsi utama untuk mengubah nama file saat cetak
-    function cetakLaporan() {
-        const namaVal = inputNama.value.trim() || "Nama Penyuluh";
-        const tgl = getTglHariIni();
-        
-        // Mengubah Title Dokumen (Nama file saat Save As PDF)
-        document.title = `LCS, ${tgl}, ${namaVal}`;
-        
-        window.print();
-    }
+        // Fungsi Otomatisasi Title
+        function updateJudulHalaman() {
+            const namaPenyuluh = document.getElementById('id_nama').value || "Nama Penyuluh";
+            const tglKonten = document.getElementById('tgl_1') ? document.getElementById('tgl_1').value : "";
+            
+            let tglFormatted = "Tanggal";
+            if (tglKonten) {
+                const parts = tglKonten.split('-');
+                if (parts.length === 3) {
+                    tglFormatted = `${parts[2]}-${parts[1]}-${parts[0]}`; // Format DD-MM-YYYY
+                }
+            }
+            
+            document.title = `LCS, ${tglFormatted}, ${namaPenyuluh}`;
+        }
+
         function renderBarisHTML(i) {
             const tr = document.createElement('tr');
             tr.id = `baris_${i}`;
@@ -405,7 +411,11 @@
         function tampilkanPopup() { document.getElementById('popup-reset').style.display = 'flex'; }
         function tutupPopup() { document.getElementById('popup-reset').style.display = 'none'; }
         function konfirmasiReset() { localStorage.clear(); location.reload(); }
-        function cetakPDFCustom() { window.print(); }
+        
+        function cetakPDFCustom() { 
+            updateJudulHalaman();
+            window.print(); 
+        }
 
         inisialisasiTabel();
     </script>
