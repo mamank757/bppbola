@@ -246,12 +246,16 @@
         const tbody = document.getElementById('table-body');
         let jumlahBaris = parseInt(localStorage.getItem('jumlahBaris')) || 3;
 
-        function updateJudulHalaman() {
-            const nama = document.getElementById('id_nama').value || '[nama penyuluh]';
-            const periode = document.getElementById('id_periode').value || '[tanggal]';
-            document.title = `LCS ${periode}, ${nama}`;
-        }
-
+         // Fungsi utama untuk mengubah nama file saat cetak
+    function cetakLaporan() {
+        const namaVal = inputNama.value.trim() || "Nama Penyuluh";
+        const tgl = getTglHariIni();
+        
+        // Mengubah Title Dokumen (Nama file saat Save As PDF)
+        document.title = `LCS, ${tgl}, ${namaVal}`;
+        
+        window.print();
+    }
         function renderBarisHTML(i) {
             const tr = document.createElement('tr');
             tr.id = `baris_${i}`;
@@ -407,5 +411,3 @@
     </script>
 </body>
 </html>
-
-
